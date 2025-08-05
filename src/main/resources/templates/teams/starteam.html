@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Star Teams</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body class="bg-light">
+<div class="container mt-5">
+    <h2>Star Teams</h2>
+	<table class="table table-striped">
+	        <thead>
+	            <tr>
+	                <th>Teamname</th>
+	                <th>Number Of Player</th>
+	                <th>Win Count</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	            <tr th:each="team : ${teams}">
+	                <td th:text="${team.teamName}"></td>
+	                <td th:text="${team.numberOfPlayers}"></td>
+	                <td th:text="${team.numberOfWins}"></td>
+	            </tr>
+	        </tbody>
+	   </table>
+	   
+	   <a href="/logout"><button type="submit" class="btn btn-warning">Logout</button></a>
+<!--	<form th:action="@{/api/auth/login}" method="POST" class="mb-4">
+				<input type="hidden" name="username" th:field="*{currentplayer.username}" />
+				<input type="hidden" name="password" th:field="*{currentplayer.password}" />
+				<button type="submit" class="btn btn-warning">back</button>
+	</form> 
+	-->
+</div>
+</body>
+</html>

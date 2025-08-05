@@ -1,0 +1,195 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Team - E-Sports Team Management</title>
+	<style>
+	        body {
+	            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	            line-height: 1.6;
+	            margin: 0;
+	            padding: 0;
+	            background-color: #f4f7f9;
+	            color: #333;
+	        }
+	        .container {
+	            width: 80%;
+	            max-width: 1200px;
+	            margin: 0 auto;
+	            padding: 20px;
+	        }
+	        header {
+	            background-color: #2c3e50;
+	            color: white;
+	            padding: 1rem 0;
+	            margin-bottom: 2rem;
+	        }
+	        h1, h2, h3 {
+	            color: #2c3e50;
+	        }
+	        header h1 {
+	            color: white;
+	            margin: 0;
+	            padding: 10px 0;
+	            text-align: center;
+	        }
+	        .card {
+	            background: white;
+	            border-radius: 8px;
+	            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+	            padding: 20px;
+	            margin-bottom: 20px;
+	            max-width: 500px;
+	            margin-left: auto;
+	            margin-right: auto;
+	        }
+	        .form-group {
+	            margin-bottom: 15px;
+	        }
+	        .form-group label {
+	            display: block;
+	            margin-bottom: 5px;
+	            font-weight: bold;
+	        }
+	        .form-control {
+	            width: 100%;
+	            padding: 10px;
+	            border: 1px solid #ddd;
+	            border-radius: 4px;
+	            box-sizing: border-box;
+	        }
+	        .btn {
+	            display: inline-block;
+	            background: #3498db;
+	            color: white;
+	            padding: 10px 20px;
+	            border: none;
+	            border-radius: 4px;
+	            text-decoration: none;
+	            font-weight: bold;
+	            cursor: pointer;
+	            transition: background 0.3s;
+	        }
+	        .btn:hover {
+	            background: #2980b9;
+	        }
+	        .btn-secondary {
+	            background: #95a5a6;
+	        }
+	        .btn-secondary:hover {
+	            background: #7f8c8d;
+	        }
+	        .message {
+	            padding: 10px;
+	            border-radius: 4px;
+	            margin-bottom: 15px;
+	            display: none;
+	        }
+	        .message.error {
+	            background-color: #f8d7da;
+	            border-color: #f5c6cb;
+	            color: #721c24;
+	        }
+	        .message.success {
+	            background-color: #d4edda;
+	            border-color: #c3e6cb;
+	            color: #155724;
+	        }
+	        footer {
+	            text-align: center;
+	            margin-top: 3rem;
+	            padding: 1rem 0;
+	            background-color: #2c3e50;
+	            color: white;
+	        }
+	        .nav-links {
+	            text-align: center;
+	            margin-top: 20px;
+	        }
+	        .nav-links a {
+	            color: #3498db;
+	            text-decoration: none;
+	            margin: 0 10px;
+	        }
+	        .nav-links a:hover {
+	            text-decoration: underline;
+	        }
+	        .section-divider {
+	            border-top: 1px solid #ddd;
+	            margin: 20px 0;
+	            padding-top: 20px;
+	        }
+	    </style>
+
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>E-Sports Team Management</h1>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <h2>Create a New Team</h2>
+			<!-- Display success or error messages -->
+			<div th:if="${message != null}">
+			      <div class="message" th:classappend="${message.contains('successful') ? 'success' : 'error'}">
+			            <p th:text="${message}"></p>
+			       </div>
+			 </div>
+
+			<!-- Create Team Form -->
+			            <form action="#" th:action="@{/players/create-team}" method="POST">
+			                
+			                <!-- Team Name Input -->
+			                <div class="form-group">
+			                    <label for="teamName">Team Name</label>
+			                    <input type="text" id="teamName" class="form-control" th:field="${team.teamName}" required>
+			                </div>
+			                
+			                <!-- Team Password Input -->
+			                <div class="form-group">
+			                    <label for="teamPassword">Team Password</label>
+			                    <input type="password" id="teamPassword" class="form-control" th:field="${team.teamPassword}" required>
+			                </div>
+
+			                <div class="section-divider"></div>
+			                <h3>Team Leader Information</h3>
+			                
+			                <!-- Player Username Input -->
+			                <div class="form-group">
+			                    <label for="leaderUsername">Leader Username</label>
+			                    <input type="text" id="leaderUsername" class="form-control" th:field="${player.username}" required>
+			                </div>
+			                
+			                <!-- Player Password Input -->
+			                <div class="form-group">
+			                    <label for="leaderPassword">Leader Password</label>
+			                    <input type="password" id="leaderPassword" class="form-control" th:field="${player.password}" required>
+			                </div>
+
+			                <!-- Submit Button -->
+			                <div class="form-group">
+			                    <button type="submit" class="btn">Create Team</button>
+			                    <a href=""><button class="btn btn-secondary">Cancel</button></a>
+			                </div>
+			            </form>
+
+            <div class="nav-links">
+                <a th:href="@{/api/auth/login}">Already have an account? Login</a>
+                <a th:href="@{/players/register-solo}">Register as Solo Player</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 E-Sports Team Management Platform</p>
+        </div>
+    </footer>
+</body>
+</html>
+

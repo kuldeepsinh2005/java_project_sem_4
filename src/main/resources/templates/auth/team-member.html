@@ -1,0 +1,119 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+
+    <title>Team Member Dashboard</title>
+</head>
+<body class="bg-light">
+	
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h2>Welcome, <span th:text="${player.username}"></span> (Team Member)</h2>
+        </div>
+		
+        <div class="card-body">
+			<div class="card p-4 shadow-sm mb-4">
+			    <h3 class="card-title">Team Info</h3>
+			    <div  class="card-body">
+			        <p><strong>Team ID:</strong> <span th:text="${team.teamId}"></span></p>
+			        <p><strong>Team Name:</strong> <span th:text="${team.teamName}"></span></p>
+			        <p><strong>Number of Wins:</strong> <span th:text="${team.numberOfWins}"></span></p>
+			        <p><strong>Number of Players:</strong> <span th:text="${team.numberOfPlayers}"></span></p>
+			    </div>
+			</div>
+			
+			<div class="card p-4 shadow-sm mb-4">
+			    <h3 class="card-title">Team Members</h3>
+
+			    <div th:if="${#lists.isEmpty(teamMembers)}" class="alert alert-info">No members in the team.</div>
+
+			    <table th:if="${not #lists.isEmpty(teamMembers)}" class="table table-striped table-bordered">
+			        <thead class="table-dark">
+			            <tr>
+			                <th>Player ID</th>
+			                <th>Username</th>
+			                <th>Role</th>
+			                <th>Kill Count</th>
+			            </tr>
+			        </thead>
+			        <tbody>
+			            <tr th:each="member : ${teamMembers}">
+			                <td th:text="${member.playerId}"></td>
+			                <td th:text="${member.username}"></td>
+			                <td th:text="${member.role}"></td>
+			                <td th:text="${member.killCount}"></td>
+						</tr>
+			        </tbody>
+			    </table>
+			</div>
+			<div class="card-body">
+			<h4>Account Information</h4>
+			            <form th:action="@{/players/update}" method="POST" class="mb-4">
+			                <input type="hidden" name="playerId" th:value="${player.playerId}" />
+							<input type="hidden" name="killCount" th:value="${player.killCount}" />
+			                <div class="mb-3">
+			                    <label>Username</label>
+			                    <input type="text" name="username" th:value="${player.username}" class="form-control" required />
+			                </div>
+
+			                <div class="mb-3">
+			                    <label>Password</label>
+			                    <input type="password" name="password" th:value="${player.password}" class="form-control" required />
+			                </div>
+
+			                <div class="mb-3">
+			                    <label>Role</label>
+			                    <select name="role" class="form-control">
+			                        <option value="healer" th:selected="${player.role == 'healer'}">Healer</option>
+			                        <option value="rusher" th:selected="${player.role == 'rusher'}">Rusher</option>
+			                        <option value="sniper" th:selected="${player.role == 'sniper'}">Sniper</option>
+			                    </select>
+			                </div>
+			                <button type="submit" class="btn btn-warning">Update</button>
+			            </form>
+
+						<form action="#" th:action="@{/players/delete}" method="POST">
+
+								<input type="hidden" name="playerId" th:value="${player.playerId}" />
+								<button type="submit" class="btn btn-danger btn-sm"
+										onclick="if (!(confirm('Are you sure you want to delete your account?'))) return false">
+												Delete
+								</button>
+						</form>
+			</div>			
+			<!---->
+            <!-- Actions Section -->
+            <h3 class="mt-4 text-secondary">Actions</h3>
+            <div class="d-flex gap-3">
+				<a th:href="@{/teams/team-all}" class="btn btn-outline-primary">View All Teams</a>
+				<a th:href="@{/players/all-list}" class="btn btn-outline-primary">View All Players</a>
+            </div>
+			<br>
+			<div class="d-flex gap-3">
+				<form th:action="@{/teams/remove-player}" method="POST" class="mb-4">
+					<input type="hidden" name="leaderId" th:value="${player.playerId}" />	
+					<input type="hidden" name="playerId" th:value="${player.playerId}" />
+					<input type="hidden" name="teamId" th:value="${team.teamId}" />
+					<button type="submit" class="btn btn-warning">Leave</button>
+				</form>
+				<br>
+				<a href="/logout"><button type="submit" class="btn btn-warning">Logout</button></a>
+				<br>
+			</div>
+			
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2L1uO/Ju6azPz7nF6Fxd2fXrL/poa2mY+AMJ3B6EGap8hF5D0j3fUCM0X9p" crossorigin="anonymous"></script>
+
+</body>
+</html>

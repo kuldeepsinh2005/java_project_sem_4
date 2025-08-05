@@ -1,0 +1,104 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+          crossorigin="anonymous">
+
+    <title>Solo Player Dashboard</title>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 1100px;
+        }
+        .card {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .btn {
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container mt-5">
+
+    <!-- Notifications -->
+    <div th:if="${success}" class="alert alert-success" role="alert">
+        <span th:text="${success}"></span>
+    </div>
+    <div th:if="${error}" class="alert alert-danger" role="alert">
+        <span th:text="${error}"></span>
+    </div>
+
+    <!-- Player Info -->
+    <div class="card">
+        <div class="card-header bg-success text-white">
+            <h2>Welcome, <span th:text="${player.username}"></span> (Solo Player)</h2>
+        </div>
+        <div class="card-body">
+            
+            <h4>Account Information</h4>
+			
+            <form th:action="@{/players/update}" method="POST" class="mb-4">
+                <input type="hidden" name="playerId" th:value="${player.playerId}" />
+				<input type="hidden" name="killCount" th:value="${player.killCount}" />
+                <div class="mb-3">
+                    <label>Username</label>
+                    <input type="text" name="username" th:value="${player.username}" class="form-control" required />
+                </div>
+
+                <div class="mb-3">
+                    <label>Enter New Password</label>
+                    <input type="password" name="password" th:value="${player.password}" class="form-control" required />
+                </div>
+				<h5>kill Count : <span th:text="${player.killCount}"></span></h5>
+                <div class="mb-3">
+                    <label>Current Role <span th:text="${player.role}"></span></label>
+                    <select name="role" class="form-control">
+                        <option value="healer" th:selected="${player.role == 'healer'}">Healer</option>
+                        <option value="rusher" th:selected="${player.role == 'rusher'}">Rusher</option>
+                        <option value="sniper" th:selected="${player.role == 'sniper'}">Sniper</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-warning">Update</button>
+            </form>
+
+			<form action="#" th:action="@{/players/delete}" method="POST">
+
+					<input type="hidden" name="playerId" th:value="${player.playerId}" />
+					<button type="submit" class="btn btn-danger btn-sm"
+							onclick="if (!(confirm('Are you sure you want to delete your account?'))) return false">
+									Delete
+					</button>
+			</form>
+			
+			
+			
+            <hr>
+			<h4>Actions</h4>
+            <div class="d-flex gap-3">
+				<a th:href="@{/api/requests/page}" class="btn btn-outline-primary">join</a>
+                <a th:href="@{/teams/team-all}" class="btn btn-outline-primary">View All Teams</a>
+                <a th:href="@{/players/all-list}" class="btn btn-outline-primary">View All Players</a>
+            </div>
+			<br>	
+				<a href="/logout"><button type="submit" class="btn btn-warning">Logout</button></a>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
